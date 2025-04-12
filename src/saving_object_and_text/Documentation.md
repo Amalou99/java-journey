@@ -14,9 +14,15 @@ A code journal documenting my Java programming journey through practical example
 
 ## Saving Objects (and Text)
 
+To DO
+
 ## Serialization
 
+To DO
+
 ## Deserialization
+
+To DO
 
 ## The java.io.File Class
 
@@ -88,3 +94,25 @@ we can distingue three types in java.nio.file:
 - The Path interface : You will always need a path object to locate the directories or files you want to work with.
 - The Paths class: You will use the Paths.get() methode to make the path object you will need when you use methodsin the Files class.
 - The Files class: This is the class whose (static) methods do what you will want to do: making new Readers and Writers , and creatig modifying, and searshing through directories and files on file system.
+
+creating a BufferedWriter with NIO.2
+
+import Path, Paths, and Files:
+
+```
+import java.nio.file
+```
+
+Make a Path object using the Paths:
+
+```
+Path myPath = Paths.get("/myApp/path/to/files/myFile.txt");
+```
+
+Make a new BufferedWriter using a Path and the Files class:
+
+```
+BufferedWriter bf = Files.newBufferedWriter(myPath);
+```
+
+For more details check APINIO2.java File.
