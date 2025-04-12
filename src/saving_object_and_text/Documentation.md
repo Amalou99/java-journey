@@ -4,14 +4,21 @@ A code journal documenting my Java programming journey through practical example
 
 ## Table of Contents
 
-- [File Handling in Java](#file-handling-in-java)
-  - [The java.io.File Class](#the-javaiofile-class)
+- [Saving Objects (and Text)](#saving-objects-and-ext)
+- [Serialization](#serialization)
+- [Deserialization](#deserialization)
+- [The java.io.File Class](#the-javaiofile-class)
   - [FileReader and FileWriter](#FileReader-and-FileWriter)
   - [The beauty of buffers](#the-beauty-of-buffers)
+- [NIO.2 and The java.nio.File Class](#nio2-and-the-javaniofile-class)
 
-## File Handling in Java
+## Saving Objects (and Text)
 
-### The java.io.File Class
+## Serialization
+
+## Deserialization
+
+## The java.io.File Class
 
 The `java.io.File` is an older class in the Java API that has been largely replaced by classes in the `java.nio.file` package in newer Java versions.
 
@@ -31,7 +38,13 @@ For more code details and examples, check the implementation in FileClass.java.
 
 ### FileReader and FileWriter
 
-The FileReader class is used to read character-by-character. FileWriter is used to write character-by-character.
+The FileReader class is used to read character-by-character.
+
+![Alt text](../../ressources/FileReader.jpg "File Reader Class")
+
+FileWriter is used to write character-by-character.
+
+![Alt text](../../ressources/FileWriter.jpg "File Writer Class")
 
 ### The beauty of buffers
 
@@ -62,3 +75,16 @@ Give you a temporary holding place to group things until the the holder( like a 
             e.printStackTrace();
         }
 ```
+
+## NIO.2 and The java.nio.File Class
+
+java NIO.2 is usually taken to mean two packag in java 7 :
+
+- java.nio.file: lets you manipulate the metadata associated with a computer's files and directories.like permissions settings.
+- java.nio.file.attribute : do common test file reading and writing, and it also provides you with the ability to manipulate a computer's directories and directory structure.
+
+we can distingue three types in java.nio.file:
+
+- The Path interface : You will always need a path object to locate the directories or files you want to work with.
+- The Paths class: You will use the Paths.get() methode to make the path object you will need when you use methodsin the Files class.
+- The Files class: This is the class whose (static) methods do what you will want to do: making new Readers and Writers , and creatig modifying, and searshing through directories and files on file system.
