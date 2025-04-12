@@ -9,7 +9,7 @@ A code journal documenting my Java programming journey through practical example
 ## Chat program overview
 
 Each client has to know about servre. and the server has to know about all the clients.
-![Alt text](../../ressources/chatProgram_howItWorks.jpg "File Writer Class")
+![Alt text](../../ressources/chatProgram_howItWorks.jpg "Chat Program: how it works")
 
 ### Connecting, sending, and receiving
 
@@ -38,6 +38,28 @@ _A coonection means the two machines have information about each other, includin
 
 2. Receive
 
-You can use BufferedReader
+You can use BufferedReader just like you did when you were reading from a file. the difference is that the underlying connection stream is connected to a _Channel_ rather than a _File_!
+
+- Make connection to the server
+
+```
+    InetSocketAddress serverAdress = new InetSocketAddress("127.0.0.1", 5000);
+    SocketChannel socketChannel = SocketChannel.open(serverAdress);
+```
+
+- Create or get a Reader from the connection
+
+```
+    Reader reader = Channels.newReader(socketChannel, StandardCharsets.UTF_8);
+```
+
+- Make a BufferedReader and read!
+
+```
+    BufferedReader bufferedReader = new BufferedReader(reader);
+    String message = bufferedReader.readLine();
+```
+
+![Alt text](../../ressources/recieve_ChatProgram.jpg "Recieve Step")
 
 3. Send
