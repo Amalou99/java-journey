@@ -74,3 +74,27 @@ You need to call one of the Stream's _do it_ methods in orther to get the result
     long result = limit.count();
     System.out.println("result = "+result);
 ```
+
+one of the most common things to do with Streams is put the results into another type of colection.
+
+```
+    List<String> result = limit.collect(Collectors.toList());
+```
+
+### Stream operations are building blocks
+
+you can create a **stream pipeline** from three different types of building blocks.
+
+- Get the stream from a _source_ collection.
+- call zero or more _intermediate operations_ on the Stream.
+- Output the result with a _terminal operation_.
+
+You need at least the _first_ and _last_ step tu use Streams API. the operations are designed to be **chained**, so you can call one stage straight after the previous one.
+
+```
+    List<String> result = strings.stream()
+                                 .limit(4)
+                                 .collect(Collectors.toList());
+```
+
+The source, the intermediate operation(s), and terminal opertaion all combine to form a **Stream Pipeline**. this pipeline represents a query on the original collection.
