@@ -128,6 +128,37 @@ it's possible to write programms that run different bits of code at the same tim
 
 ## Hello Lambda
 
+### Abstract Method
+
+An abstract method is a method declared without an implementation (i.e., no body) inside an abstract class or interface.
+
+🔹 Syntax:
+
+```
+public abstract class Animal {
+    abstract void makeSound(); // Abstract method - no body
+}
+```
+
+Any class that extends Animal must override this method and provide a concrete implementation:
+
+```
+public class Dog extends Animal {
+    @Override
+    void makeSound() {
+        System.out.println("Woof!");
+    }
+}
+```
+
+✅ Why Are Abstract Methods Useful?
+
+- They enforce contracts: subclasses must implement required behavior.
+
+- Enable polymorphism: you can use abstract types while calling subclass implementations.
+
+- They are essential for Functional Interfaces, where one abstract method represents the behavior.
+
 ### Functional Interface
 
 🔹 What is a Functional Interface?
@@ -144,6 +175,7 @@ public interface MyFunction {
 
 🔹 Why Functional Interfaces are Useful
 They are powerful because they allow us to pass behavior (functions) as parameters, enabling a cleaner, more flexible coding style—especially in APIs like Streams.
+
 🔹 Common Utility Use Cases
 
 - Cleaner Code with Lambdas:
