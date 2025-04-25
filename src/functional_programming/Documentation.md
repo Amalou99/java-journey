@@ -93,8 +93,80 @@ You need at least the _first_ and _last_ step tu use Streams API. the operations
 
 ```
     List<String> result = strings.stream()
+                                 .skip(2)
                                  .limit(4)
                                  .collect(Collectors.toList());
 ```
 
 The source, the intermediate operation(s), and terminal opertaion all combine to form a **Stream Pipeline**. this pipeline represents a query on the original collection.
+
+#### Collecting to a List
+
+- collect : First of all perfome all intermediate operations, in this case skip;limit. AND colllect the results according to the instructions passed into it. AND returns those results.
+- Collectors : is a class that has static static methods that provide different implementations of Collector.
+- Collectors.toList() : The collect method takes a Collector, the recipe for how to put together the results. In this case, it's using a helpful predefined Collector that puts the results into a list.
+
+## Guidelines for working with Streams
+
+1. You need at least the first and the last pieces to create a stream pipeline.
+   _stream()_ and _terminal operation_ is necessary.
+2. You can't reuse Streams.
+   once a terminal operation has been called on a stream, you can't reuse any parts of that stream;you have to create a new one.
+
+```
+Stream<String> limit = strings.stream()
+                               .limit(4);
+List<String> result = limit.collect(Collectors.toList());
+List<String> result2 = limit.collect(Collectors.toList());
+```
+
+![Alt text](../../ressources/ExceptionReuseStream.jpg "IllegalStateException")
+
+3. You can't change the underlying collection while the stream is operating.
+
+it's possible to write programms that run different bits of code at the same time (Concurrency). To be safe, it's usually best (not just for Streams, but general) to create a collections that can be changed if you know they don't need to be changed.
+
+## Hello Lambda
+
+### Functional Interface
+
+🔹 What is a Functional Interface?
+A functional interface in Java is an interface that contains exactly one abstract method. It can have multiple default or static methods, but only one method without an implementation.
+
+Java 8 introduced this concept to enable functional programming using lambdas and method references.
+
+```
+@FunctionalInterface
+public interface MyFunction {
+    void apply(); // Only one abstract method
+}
+```
+
+🔹 Why Functional Interfaces are Useful
+They are powerful because they allow us to pass behavior (functions) as parameters, enabling a cleaner, more flexible coding style—especially in APIs like Streams.
+🔹 Common Utility Use Cases
+
+- Cleaner Code with Lambdas:
+
+```
+Runnable r = () -> System.out.println("Running");
+```
+
+- Cleaner Code with Lambdas:
+
+```
+List<String> names = List.of("Anna", "Bob", "Sam");
+names.stream()
+     .filter(name -> name.length() == 3)      // Predicate<String>
+     .map(String::toUpperCase)                // Function<String, String>
+     .forEach(System.out::println);           // Consumer<String>
+```
+
+- Cleaner Code with Lambdas:
+
+```
+@FunctionalInterface
+interface Converter<T, R> {
+    R convert(T input);
+}
+```
