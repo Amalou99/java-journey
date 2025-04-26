@@ -164,6 +164,8 @@ public class Dog extends Animal {
 🔹 What is a Functional Interface?
 A functional interface in Java is an interface that contains exactly one abstract method. It can have multiple default or static methods, but only one method without an implementation.
 
+Functional Interface is additionally recognized as Single Abstract Method Interfaces. In short, they are also known as SAM interfaces.
+
 Java 8 introduced this concept to enable functional programming using lambdas and method references.
 
 ```
@@ -201,4 +203,76 @@ names.stream()
 interface Converter<T, R> {
     R convert(T input);
 }
+```
+
+### Lambda Expression
+
+![Alt text](../../ressources/ForEach_Method.jpg "ForEach Method")
+
+### Anatomy of a lambda expression
+
+![Alt text](../../ressources/AnatomyLambda.jpg "Anatomy of a lambda expression")
+
+### Interfaces : Static and Default methods
+
+#### Static Methods
+
+Since Java 8, you can add static methods inside an interface.
+
+A static method belongs to the interface itself, not to the classes that implement it.
+
+- Why is it useful?
+  To provide utility/helper methods related to the interface.
+
+- Example:
+
+```
+interface Calculator {
+    static int add(int a, int b) {
+        return a + b;
+    }
+}
+```
+
+- Usage:
+
+```
+int result = Calculator.add(5, 3);  // No need to implement Calculator
+System.out.println(result);         // Output: 8
+```
+
+#### Default Methods
+
+Also introduced in Java 8.
+
+A default method has a default implementation.
+
+Classes can override it if they want to.
+
+- Why is it useful?
+  It allows adding new methods to interfaces without breaking existing code that already implements those interfaces.
+
+- Example:
+
+```
+interface Vehicle {
+    default void start() {
+        System.out.println("Vehicle is starting...");
+    }
+}
+```
+
+Class implementing the interface without needing to override start():
+
+```
+class Car implements Vehicle {
+    // No need to override start() unless I want a custom behavior
+}
+```
+
+- Usage:
+
+```
+Car car = new Car();
+car.start();  // Output: Vehicle is starting...
 ```
