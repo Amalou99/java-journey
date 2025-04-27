@@ -276,3 +276,7 @@ class Car implements Vehicle {
 Car car = new Car();
 car.start();  // Output: Vehicle is starting...
 ```
+
+Both default and static methods have a method body, with defined behavior. With interfaces,
+any method that is not defined as _default_ or _static_ is an abstract method that must be
+overridden.
