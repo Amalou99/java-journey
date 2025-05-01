@@ -207,7 +207,58 @@ Now we’re able to sort the song list two ways:
 
 ### Using a custom Comparator
 
-To DO
+Sorting using only Comparators :
+```
+public class Jukebox5 {
+ public static void main(String[] args) {
+  new Jukebox5().go();
+ }
+ public void go() {
+  List<SongV3> songList = MockSongs.getSongsV3();
+  System.out.println(songList);
+  TitleCompare titleCompare = new TitleCompare();
+  songList.sort(titleCompare);
+  System.out.println(songList);
+  ArtistCompare artistCompare = new ArtistCompare();
+  songList.sort(artistCompare);
+  System.out.println(songList);
+ }
+}
+class TitleCompare implements Comparator<SongV3> {
+  public int compare(SongV3 one, SongV3 two) {
+    return one.getTitle().compareTo(two.getTitle());
+  }
+}
+class ArtistCompare implements Comparator<SongV3> {
+  public int compare(SongV3 one, SongV3 two) {
+    return one.getArtist().compareTo(two.getArtist());
+  }
+}
+```
+
+Using the innerclass :
+
+```
+songList.sort(new Comparator<SongV3>() {
+  public int compare(SongV3 one, SongV3 two) {
+    return one.getTitle().compareTo(two.getTitle());
+  }
+});
+```
+
+we can sort a list with lambda expression:
+```
+  public void go() {
+    List<SongV2> songList = MockSongs.getSongStrings();
+    System.out.println(songList);
+    songList.sort((one, two) -> one.getTitle().compareTo(two.getTitle()));
+    System.out.println(songList);
+
+    songList.sort((one, two) -> one.getArtist().compareTo(two.getArtist()));
+    System.out.println(songList);
+  }
+```
+
 
 ## The Collection API
 
