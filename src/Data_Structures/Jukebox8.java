@@ -1,15 +1,19 @@
 import java.util.*;
 
-public class Jukebox1 {
+public class Jukebox8 {
     public static void main(String[] args) {
-        new Jukebox1().go();
+        new Jukebox8().go();
     }
 
     public void go() {
         List<SongV2> songList = MockSongs.getSongStrings();
         System.out.println(songList);
-        Collections.sort(songList);
+
+        songList.sort((one, two) -> one.getTitle().compareTo(two.getTitle()));
         System.out.println(songList);
+
+        Set<SongV2> songSet = new HashSet<>(songList);
+        System.out.println(songSet);
     }
 }
 
@@ -17,6 +21,15 @@ class SongV2 implements Comparable<SongV2> {
     private String title;
     private String artist;
     private int bpm;
+
+    public boolean equals(SongV2 aSong) {
+        SongV2 other = (SongV2) aSong;
+        return title.equals(other.getTitle());
+    }
+
+    public int hashCode() {
+        return title.hashCode();
+    }
 
     public int compareTo(SongV2 s) {
         return title.compareTo(s.getTitle());

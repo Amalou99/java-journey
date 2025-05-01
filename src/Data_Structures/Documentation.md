@@ -271,8 +271,10 @@ we can sort a list with lambda expression:
 we can defferentiate :
 
 ![Alt text](../../ressources/list.jpg "List")
+
 AND :
 ![Alt text](../../ressources/set.jpg "Set")
+
 AND :
 ![Alt text](../../ressources/map.jpg "Map")
 
@@ -282,11 +284,159 @@ To DO
 
 ### What makes two objects equal
 
-To DO
+- Reference equality : Two references, one object on the heap.
+
+![Alt text](../../ressources/Reference_equality.jpg "Reference equality")
+
+Two references that refer to the same object on the heap are equal. Period. If you call the hashCode() method on both references, you’ll get the same result. If you don’t override the hashCode() method, the default behavior (remember, you inherited this from class Object) is that each object will get a unique number (most versions of Java assign a hashcode based on the object’s memory address on the heap, so no two objects will have the same hashcode). If you want to know if two references are really referring to the same object, use the == operator, which (remember) compares the bits in the variables. If both references point to the same object, the bits will be identical.
+
+- Object equality : Two references, two objects on the heap, but the objects are considered meaningfully equivalent.
+
+![Alt text](../../ressources/Object_equality.jpg "Object equality")
+
+If you want to treat two different Song objects as equal (for example if you decided that two Songs are the same if they have matching title variables), you must override both the hashCode() and equals() methods inherited from class Object. As we said above, if you don’t override hashCode(), the default behavior (from Object) is to give each object a unique hashcode value. So you must override hashCode() to be sure that two equivalent objects return the same hashcode. But you must also override equals() so that if you call it on either object, passing in the other object, always returns true.
+
+**The Song class with overridden hashCode() and equals()**
+
+```
+class SongV2 implements Comparable<SongV2> {
+    private String title;
+    private String artist;
+    private int bpm;
+
+    public boolean equals(SongV2 aSong) {
+        SongV2 other = (SongV2) aSong;
+        return title.equals(other.getTitle());
+    }
+
+    public int hashCode() {
+        return title.hashCode();
+    }
+    //More Code
+}
+```
+
+The API docs for class Object state the rules you MUST follow:
+
+- If two objects are equal, they MUST have matching hash codes.
+- If two objects are equal, calling equals() on either object MUST return true. In other words, if (a.equals(b)) then (b.equals(a)).
+- If two objects have the same hash codevalue, they are NOT required to be equal. But if they’re equal, they MUST have the same hash code value.
+- So, if you override equals(), you MUST override hashCode().
+- The default behavior of hashCode() is to generate a unique integer for each object on the heap. So if you don’t override hashCode() in a class, no two objects of that type can EVER be considered equal.
+- The default behavior of equals() is to do an == comparison. In other words, to test whether the two references refer to a single object on the heap. So if you don’t override equals() in a class, no two objects can EVER be considered equal since references to two different objects will always contain a different bit pattern.
+  a.equals(b) must also mean that a.hashCode() == b.hashCode()
+  But a.hashCode() == b.hashCode() does NOT have to mean a.equals(b)
 
 ### What you MUST know about TreeSet
 
-To DO
+```
+public void go() {
+        List<SongV2> songList = MockSongs.getSongStrings();
+        System.out.println(songList);
+
+        songList.sort((one, two) -> one.getTitle().compareTo(two.getTitle()));
+        System.out.println(songList);
+
+        Set<SongV2> songSetTree = new TreeSet<>(songList);
+        System.out.println(songSetTree);
+    }
+```
+
+If we want the TreeSet to sort on something different:
+
+```
+  TreeSet<SongV4> songSet = new TreeSet<>((o1, o2) -> o1.getBpm() - o2.getBpm());
+  songSet.addAll(songList);
+```
+
+To use a TreeSet, one of these things must be true:
+
+- The elements in the list must be of a type that implements Comparable.
+
+```
+class Book implements Comparable<Book> {
+ private String title;
+ public Book(String t) {
+ title = t;
+ }
+ public int compareTo(Book other) {
+ return title.compareTo(other.title);
+ }
+}
+```
+
+OR
+
+- You use the TreeSet’s overloaded constructor that takes a Comparator
+
+TreeSet works a lot like the sort() method—you have a choice of using the element’s compareTo() method, assuming the element type implemented the Comparable interface, OR you can use a custom Comparator that knows how to sort the elements in the set. To use a custom Comparator, you call the TreeSet constructor that takes a Comparator.
+
+```
+class BookCompare implements Comparator<Book> {
+ public int compare(Book one, Book two) {
+ return one.title.compareTo(two.title);
+ }
+}
+```
+
+### We’ve seen Lists and Sets, now we’ll use a Map
+
+![Alt text](../../ressources/map_.jpg "Map")
+
+### Factory methods for collections
+
+```
+ist<String> songs = new ArrayList<>();
+ songs.add("somersault");
+ songs.add("cassidy");
+ songs.add("$10");
+ return Collections.unmodifiableList(songs);
+```
+
+Return an "Unmodifiable" version of the list we just created so we know no one else can change it. We’ll see in Chapters 12 and 18 why we might want to create data structures that can’t be changed.
+
+Convenience Factory Methods for Collections allow you to easily create a List, Set, or Map that’s been prefilled with known data. There are a couple of things to understand about using them:
+
+- **The resulting collections cannot be changed**. You can’t add to them or alter the values; in fact, you can’t even do the sorting that we’ve seen in this chapter.
+
+- **The resulting collections are not the standard Collections we’ve seen**. These are not ArrayList, HashSet, HashMap, etc. You can rely on them to behave according to their interface: a List will always preserve the order in which the elements were placed; a Set will never have duplicates. But you can’t rely on them being a specific implementation of List, Set, or Map.
+
+- Creating a List: List.of().
+
+```
+List<SongV4> songs = List.of(new SongV4("somersault", "zero 7", 147),
+                            new SongV4("cassidy", "grateful dead", 158),
+                            new SongV4("$10", "hitchhiker", 140)
+                          );
+```
+
+- Creating a Set: Set.of().
+
+```
+Set<Book> books = Set.of(new Book("How Cats Work"),
+                        new Book("Remix your Body"),
+                        new Book("Finding Emo"))
+```
+
+- Creating a Map: Map.of(), Map.ofEntries()
+
+If you want to put less than 10 entries into your Map, you can use Map.of:
+
+```
+ Map<String, Integer> scores = Map.of("Kathy", 42,
+                                      "Bert", 343,
+                                      "Skyler", 420);
+```
+
+If you have more than 10 entries, you can use Map.ofEntries instead:
+
+```
+Map<String, String> stores = Map.ofEntries(Map.entry("Riley", "Supersports"),
+                                          Map.entry("Brooklyn", "Camera World"),
+                                          Map.entry("Jay", "Homecase"));
+```
+
+**If you declare a method to take List<Animal>, it can take ONLY a List<Animal>, not List<Dog> or List<Cat>.**
 
 # Questions :
 
