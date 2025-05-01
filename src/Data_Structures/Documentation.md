@@ -121,10 +121,11 @@ List<Song> songList = new ArrayList<Song>()
 
 - Declaring (and invoking) methods that take generic types
 
-````
+```
 void foo(List<Song> list)
 x.foo(songList)
 ```
+
 ### Using generics CLASSES
 
 ```
@@ -143,16 +144,18 @@ E3 : The type (the valye of<E>)becomes the type of the List, interface as well.
 
 E4 : Here is the important part! whatever "E" is determines what kind of things you are allowed to add to the ArrayList.
 
-
 The "E" represents the type used to create an instance of ArrayList. So new ArrayList<Song> means that "E" becomes "Song" in any method nd variable declaration that uses "E".
 
 ### Using type parameters with ArrayList CLASSES
 
 this code
+
 ```
 List<String> thisList = new ArrayList<>
 ```
+
 Means ArrayList:
+
 ```
 public class ArrayList<E> extends AbstractList<E> ....{
   public boolean add(E o)
@@ -161,12 +164,14 @@ public class ArrayList<E> extends AbstractList<E> ....{
 ```
 
 And E is String. that means is treated by the compiler as:
+
 ```
 public class ArrayList<String> extends AbstractList<String> ....{
   public boolean add(String o)
   //more code
 }
 ```
+
 In other words, the "E" is replaced by the real type (also called the _type parameter_ ) that you use when you create the ArrayList.
 
 ### Using generics METHODS
@@ -180,6 +185,7 @@ public class ArrayList<E> extends AbstractList<E> ...{
   public boolean add(E o)
 }
 ```
+
 E: You can use the "E" here ONLY because it's already been defined as part of the class.
 
 The type declared in the method argument is essentially replaced with the type you use when you instantiate the class.
@@ -189,16 +195,15 @@ The type declared in the method argument is essentially replaced with the type y
 ```
 public  <T1 extends Animal> void takeThing(ArrayList<T2> list)
 ```
-T2: here we can use <T> because we declared "T" at the start (T1) of method declaration ()
 
+T2: here we can use <T> because we declared "T" at the start (T1) of method declaration ()
 
 In generics, the keyword "extends" really means "IS-A" and work for both classes and interfaces.
 
-
 - Invoking the Collections.sort(List list) method means the list element’s compareTo() method determines the order. The elements in the list MUST implement the Comparable interface.
 - Invoking List.sort(Comparator c) or Collections.sort(List list, Comparator c) means the Comparator’s compare() method will be used. That means the elements in the list do NOT
-need to implement the Comparable interface, but if they do, the list element’s compareTo()
-method will NOT be called.
+  need to implement the Comparable interface, but if they do, the list element’s compareTo()
+  method will NOT be called.
 
 Now we’re able to sort the song list two ways:
 
@@ -208,6 +213,7 @@ Now we’re able to sort the song list two ways:
 ### Using a custom Comparator
 
 Sorting using only Comparators :
+
 ```
 public class Jukebox5 {
  public static void main(String[] args) {
@@ -247,6 +253,7 @@ songList.sort(new Comparator<SongV3>() {
 ```
 
 we can sort a list with lambda expression:
+
 ```
   public void go() {
     List<SongV2> songList = MockSongs.getSongStrings();
@@ -259,11 +266,14 @@ we can sort a list with lambda expression:
   }
 ```
 
-
 ## The Collection API
 
+we can defferentiate :
+
 ![Alt text](../../ressources/list.jpg "List")
+AND :
 ![Alt text](../../ressources/set.jpg "Set")
+AND :
 ![Alt text](../../ressources/map.jpg "Map")
 
 ### Using a HashSet instead of ArrayList
@@ -285,4 +295,7 @@ To DO
   `List<String> songs = new ArrayList<>();`
 
 R1 : One of the advantages of polymorphism is that code doesn’t need to know the specific implementation type of an object to work well with it. List is a well-known, wellunderstood interface . Code that is working with an ArrayList doesn’t usually need to know it’s an ArrayList. It could be a LinkedList. Or a specialized type of List. Code that’s working with the List only needs to know it can call List methods on it (like ad(),size() etc). It’s usually safer to pass the interface type (i.e., List) around instead of the implementation. That way, other code can’t go rooting around inside your object in a way that was never intended.It also means that should you ever want to change from an ArrayList to a LinkedList, or a CopyOnWriteArrayList (see Chapter 18, Dealing with Concurrency Issues) at a later date, you can without having to change all the places the List is used.
-````
+
+```
+
+```
