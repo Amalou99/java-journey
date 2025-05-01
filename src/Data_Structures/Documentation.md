@@ -262,7 +262,9 @@ we can sort a list with lambda expression:
 
 ## The Collection API
 
-To DO
+![Alt text](../../ressources/list.jpg "List")
+![Alt text](../../ressources/set.jpg "Set")
+![Alt text](../../ressources/map.jpg "Map")
 
 ### Using a HashSet instead of ArrayList
 
