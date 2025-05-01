@@ -88,7 +88,7 @@ for example in arrayList we will add object of Songs :
 
 waht's happen ?!!!! **The compiler says it can’t find a sort method that takes a List<SongV2>**
 
-sort_method_declaration.jpg
+![Alt text](../../ressources/sort_method_declaration.jpg "Method declaration")
 
 ## Generics
 
@@ -99,8 +99,8 @@ Although generics can be used in other ways, you’ll often use generics to writ
 With generics, you can create type-safe collections where more problems are caught at
 compile-time instead of runtime.
 
-Image : without_generics.jpg
-Image : with_generics.jpg
+![Alt text](../../ressources/without_generics.jpg "without generics")
+![Alt text](../../ressources/with_generics.jpg "with generics")
 
 2- Learning Generics
 
@@ -127,15 +127,69 @@ x.foo(songList)
 ```
 ### Using generics CLASSES
 
-To DO
+```
+public class ArrayList<E1> extends AbstractList<E2> implements List<E3> ...{
+
+  public boolean add(E4 o)
+  //More code
+}
+```
+
+E1 : The "E" is placeholder for the REAL type you use when you declare and create an ArrayList.
+
+E2 : ArrayList is a subclass of AbstractList, so whatever type you specify for the ArrayList is automatically used for the type of the AbstractList
+
+E3 : The type (the valye of<E>)becomes the type of the List, interface as well.
+
+E4 : Here is the important part! whatever "E" is determines what kind of things you are allowed to add to the ArrayList.
+
+
+The "E" represents the type used to create an instance of ArrayList. So new ArrayList<Song> means that "E" becomes "Song" in any method nd variable declaration that uses "E".
 
 ### Using type parameters with ArrayList CLASSES
 
-To DO
+this code
+```
+List<String> thisList = new ArrayList<>
+```
+Means ArrayList:
+```
+public class ArrayList<E> extends AbstractList<E> ....{
+  public boolean add(E o)
+  //more code
+}
+```
+
+And E is String. that means is treated by the compiler as:
+```
+public class ArrayList<String> extends AbstractList<String> ....{
+  public boolean add(String o)
+  //more code
+}
+```
+In other words, the "E" is replaced by the real type (also called the _type parameter_ ) that you use when you create the ArrayList.
 
 ### Using generics METHODS
 
-To DO
+A generic class means that the _the class declaration_ includes a type parameter. A generic method means that the _method declaration_ use a type parameter in its signature.
+
+1- Using a type parameter defined in the class declaration
+
+```
+public class ArrayList<E> extends AbstractList<E> ...{
+  public boolean add(E o)
+}
+```
+E: You can use the "E" here ONLY because it's already been defined as part of the class.
+
+The type declared in the method argument is essentially replaced with the type you use when you instantiate the class.
+
+2- Using a type parameter that was NOT defined in the class declaration
+
+```
+public  <T1 extends Animal> void takeThing(ArrayList<T2> list)
+```
+T2: here we can use <T> because we declared "T" at the start (T1) of method declaration ()
 
 ### Using a custom Comparator
 
