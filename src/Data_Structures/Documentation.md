@@ -191,6 +191,20 @@ public  <T1 extends Animal> void takeThing(ArrayList<T2> list)
 ```
 T2: here we can use <T> because we declared "T" at the start (T1) of method declaration ()
 
+
+In generics, the keyword "extends" really means "IS-A" and work for both classes and interfaces.
+
+
+- Invoking the Collections.sort(List list) method means the list element’s compareTo() method determines the order. The elements in the list MUST implement the Comparable interface.
+- Invoking List.sort(Comparator c) or Collections.sort(List list, Comparator c) means the Comparator’s compare() method will be used. That means the elements in the list do NOT
+need to implement the Comparable interface, but if they do, the list element’s compareTo()
+method will NOT be called.
+
+Now we’re able to sort the song list two ways:
+
+1. Using Collections.sort(songList), because Song implements Comparable
+2. Using songLists.sort(artistCompare) because the ArtistCompare class implements Comparator.
+
 ### Using a custom Comparator
 
 To DO
