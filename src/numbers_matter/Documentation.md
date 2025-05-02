@@ -22,7 +22,7 @@ A code journal documenting my Java programming journey through practical example
 - [Number formatting](#number-formatting)
   - [Formatting deconstructed](#formatting-deconstructed)
   - [The format specifier](#the-format-specifier)
-- [Static vs Instance Variable](#static-vs-nstance-ariable)
+- [Static vs Instance Variable](#static-vs-instance-variable)
 
 # MATH methods
 
