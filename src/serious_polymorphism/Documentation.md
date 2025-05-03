@@ -12,8 +12,6 @@ A code journal documenting my Java programming journey through practical example
   - [Objects don't bark](#objects-don-t-bark)
   - [Inner object](#inner-object)
   - [Casting an object](#casting-an-object)
-  - [What if you need to change the Contract](#what-if-you-need-to-change-the-contract)
-  - [Multiple inheritance](#multiple-inheritance)
 - [Interfaces](#interfaces)
   - [Interfaces and polymorphism](#interfaces-and-polymorphism)
   - [Using Super](#using-super)
