@@ -283,5 +283,3 @@ Ducking (by declaring) only delays the inevitable,
 ## Music Machine : Fixing the sequencer code
 
 To DO
-
-![Alt text](../../ressources/FileWriter.jpg "File Writer Class")
