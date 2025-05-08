@@ -268,7 +268,7 @@ You don’t have a try/catch for the risky method you call, YOU are now the “r
 
 Ducking (by declaring) only delays the inevitable,
 
-![Alt text](../../ressources/Ducking_exceptions.jpg "Duck Exceptions")
+![Alt text](../../ressources/ducking_exceptions.jpg "Duck Exceptions")
 
 **Handle or Declare. It’s the law.**
 
