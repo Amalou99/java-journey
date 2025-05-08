@@ -80,6 +80,7 @@ risky method’s declaration.
 The getSequencer() method takes a risk. It can fail at runtime. So it must “declare” the risk you take when you call it.
 
 ![Alt text](../../ressources/getSequencer_method_declaration.jpg "getSequencer() Method declaration")
+
 1- The API docs tell you that getSequencer() can throw an exception: MidiUnavailableException. A method has to declare the exceptions it might throw
 
 2- This part tells you WHEN you might get that exception—in this case, because of resource restrictions (which could mean the sequencer is already being used).
@@ -129,21 +130,123 @@ Because an Exception is an object, what you catch is an object. In the following
 
 **If it’s your code that catches the exception, then whose code throws it?**
 
+You’ll spend much more of your Java coding time handling exceptions than you’ll spend creating and throwing them yourself. For now, just know that when your code calls a risky method—a method that declares an exception—it’s the risky method that throws the exception
+back to you, the caller.
+
+![alt text](../../ressources/catches_throws.jpg "Catches Throws")
+
+When somebody writes code that could throw an exception, they must declare the exception
+
+1- Risky, exception-throwing code: This method MUST tell the world (by declaring) that it throws a BadException.
+
+![alt text](../../ressources/declare_risky_method.jpg "Declare Risky Method")
+
+2- Your code that calls the risky method: If you can’t recover from the exception, at LEAST get a stack trace using the printStackTrace() method that all exceptions inherit.
+
+![alt text](../../ressources/throw_risky_method.jpg "Throws Risky Method")
+
+One method will _catch_ what another method _throws_. An exception is always thrown back to the caller. The method that throws has to _declare_ that it might throw the exception.
+
 ### Checked and unchecked exceptions
 
-To Do
+The compiler checks for everything except RuntimeExceptions.The compiler guarantees:
+
+- If you throw an exception in your code, you must declare it using the throws keyword in your method declaration.
+
+- If you call a method that throws an exception (in other words, a method that declares it throws an exception), you must acknowledge that you’re aware of the exception possibility.
+  One way to satisfy the compiler is to wrap the call in a try/catch.
+
+![alt text](../../ressources/Exception_class_diagram.jpg "Exception Class Diagram")
+
+Exceptions that are NOT subclasses of RuntimeException are checked for by the compiler. They’re called “checked exceptions.”
+
+RuntimeExceptions are NOT checked by the compiler. They’re known as (big surprise here) “unchecked exceptions.” You can throw, catch, and declare RuntimeExceptions, but you don’t have to, and the compiler won’t check.
 
 ### Bullet Points
 
-To Do
+- A method can throw an exception when something fails at runtime.
+- An exception is always an object of type Exception. (This, as you remember from the polymorphism chapters (7 and 8), means the object is from a class that has Exception somewhere up its inheritance tree.)
+- The compiler does NOT pay attention to exceptions that are of type RuntimeException. A RuntimeException does not have to be declared or wrapped in a try/catch (although you’re free to do either or both of those things).
+- All Exceptions the compiler cares about are called “checked exceptions,” which really means compiler-checked exceptions. Only RuntimeExceptions are excluded from compiler checking. All other exceptions must be acknowledged in your code.
+- A method throws an exception with the keyword throw, followed by a new exception object:
+  throw new NoCaffeineException();
+- Methods that might throw a checked exception _must_ announce it with a _throws SomeException_ declaration.
+- If your code calls a checked-exception-throwing method, it must reassure the compiler that precautions have been taken.
+- If you’re prepared to handle the exception, wrap the call in a try/catch,and put your exception handling/recovery code in the catch block.
+- If you’re not prepared to handle the exception, you can still make the compiler happy by officially “ducking” the exception. We’ll talk about ducking a little later in this chapter.
 
 ### Flow control in try catch block
 
-To Do
+When you call a risky method, one of two things can happen. The risky method either succeeds, and the try block completes, or the risky method throws an exception back to your calling method.
+
+If the try **succeeds** :
+
+![alt text](../../ressources/try_succeeds.jpg "Try Succeeds")
+
+If the try **fails** :
+
+![alt text](../../ressources/try_fails.jpg "Try Fails")
+
+_Finally_: for the things you want to do no matter what.
+
+**_A finally block is where you put code that must run regardless of an exception._**
+
+```
+try {
+  turnOvenOn();
+  x.bake();
+} catch (BakingException e) {
+  e.printStackTrace();
+} finally {
+  turnOvenOff();
+}
+```
+
+Did we mention that a method can throw more than one exception?
+
+A method can throw multiple exceptions if it darn well needs to. But a method’s declaration must declare all the checked exceptions it can throw (although if two or more exceptions have a common superclass, the method can declare just the superclass).
+
+The compiler will make sure that you’ve handled all the checked exceptions thrown by the method you’re calling. Stack the catch blocks under the try, one after the other. Sometimes the order in which you stack the catch blocks matters,
+
+![alt text](../../ressources/Multiple_exceptions.jpg "Handling Multiple Exceptions")
 
 ### Polymorphic exceptions
 
-To Do
+Exceptions are objects, remember. There’s nothing all that special about one, except that it is a thing that can be thrown. So like all good objects, Exceptions can be referred to polymorphically.
+
+![alt text](../../ressources/Exception_polymorphic.jpg "Polymorphic Exceptions")
+
+1- You can DECLARE exceptions using a superclass of the exceptions you throw.
+
+![alt text](../../ressources/Declare_exception_using_superclass.jpg "Declare Exceptions Using Superclass")
+
+2- You can CATCH exceptions using a superclass of the exception thrown.
+
+![alt text](../../ressources/Catch_exception_using_superclass.jpg "Catch Exceptions Using Superclass")
+
+_Just because you CAN catch everything with one big super polymorphic catch, doesn’t always mean you SHOULD._
+
+```
+try {
+ laundry.doLaundry();
+} catch(Exception ex) {
+ // recovery code...
+}
+```
+
+Write a different catch block for each exception that you need to handle uniquely.
+
+```
+try {
+ laundry.doLaundry();
+} catch (TeeShirtException tex) {
+ // recovery from TeeShirtException
+} catch (LingerieException lex) {
+ // recovery from LingerieException
+} catch (ClothingException cex) {
+ // recovery from all others
+}
+```
 
 ### Order of multiple catch blocks
 
