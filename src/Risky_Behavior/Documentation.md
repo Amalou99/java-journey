@@ -13,7 +13,7 @@ A code journal documenting my Java programming journey through practical example
   - [Flow control in try catch block](#flow-control-in-try-catch-block)
   - [Polymorphic exceptions](#polymorphic-exceptions)
   - [Order of multiple catch blocks](#order-of-multiple-catch-blocks)
-  - [When you don’t want to handle an exception](#when-you-don-t-want-to-handle-an-exception)
+  - [When you don’t want to handle an exception](#when-you-dont-want-to-handle-an-exception)
 - [Music Machine : Fixing the sequencer code](#music-machine-fixing-the-sequencer-code)
 
 ## Music Machine
