@@ -13,7 +13,7 @@ A code journal documenting my Java programming journey through practical example
   - [Flow control in try catch block](#flow-control-in-try-catch-block)
   - [Polymorphic exceptions](#polymorphic-exceptions)
   - [Order of multiple catch blocks](#order-of-multiple-catch-blocks)
-  - [Handle or declare](#handle-or-declare)
+  - [When you don’t want to handle an exception](#when-you-don-t-want-to-handle-an-exception)
 - [Music Machine : Fixing the sequencer code](#music-machine-fixing-the-sequencer-code)
 
 ## Music Machine
@@ -250,11 +250,35 @@ try {
 
 ### Order of multiple catch blocks
 
-To Do
+- Multiple catch blocks must be ordered from smallest to biggest
+- You can’t put bigger baskets above smaller baskets
 
-### Handle or declare
+### When you don’t want to handle an exception
 
-To Do
+If you don’t want to handle an exception, you can **duck** it by **declaring** it.
+
+```
+public void foo() throws ReallyBadException {
+ // call risky method without a try/catch
+ laundry.doLaundry();
+}
+```
+
+You don’t have a try/catch for the risky method you call, YOU are now the “risky method” Because now, whoever calls YOU has to deal with the exception
+
+Ducking (by declaring) only delays the inevitable,
+
+![Alt text](../../ressources/Ducking_exceptions.jpg "Duck Exceptions")
+
+**Handle or Declare. It’s the law.**
+
+- Handle :
+
+![Alt text](../../ressources/Handle.jpg "Handle Exceptions")
+
+- Declare (Duck it) :
+
+![Alt text](../../ressources/Declare.jpg "DDeclare Exceptions")
 
 ## Music Machine : Fixing the sequencer code
 
