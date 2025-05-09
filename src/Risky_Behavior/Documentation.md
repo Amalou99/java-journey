@@ -282,4 +282,139 @@ Ducking (by declaring) only delays the inevitable,
 
 ## Music Machine : Fixing the sequencer code
 
-To DO
+**EXception Rules**
+
+- You cannot have a catch or finally without a try.
+- You cannot put code between the try and the catch.
+- A try MUST be followed by either a catch or a finally.
+- A try with only a finally(no catch) must still declare the exception. A try without a catch doesn't satisfy the handle or declare law.
+
+```
+import javax.sound.midi.*; // Import the midi package
+import static javax.sound.midi.ShortMessage.*; // We're using a static import here so we can use the constants in the ShortMessage class
+
+public class MiniMiniMusicApp {
+
+    public static void main(String[] args) {
+        MiniMiniMusicApp mini = new MiniMiniMusicApp();
+        mini.play();
+    }
+
+    public void play() {
+
+        try {
+            // Step 1 : Get a Sequencer and open it.
+            Sequencer player = MidiSystem.getSequencer(); // Get a sequencer and open it so we can use it
+            player.open(); // (A Sequencer doesn't come already open)
+
+            // Step 2: Make a new Sequence
+            Sequence seq = new Sequence(Sequence.PPQ, 4);
+
+            // Step 3: Get a new Track from the Sequence
+            Track track = seq.createTrack();
+            /*
+             * Ask the Sequence for the Track. Remember, the Track lives in the Sequence,
+             * and the MIDI data lives in the Track.
+             */
+
+            // Step 4: Fill the Track with MidiEvents and give the Sequence to the Sequencer
+            ShortMessage msg1 = new ShortMessage();
+            msg1.setMessage(NOTE_ON, 1, 44, 100);
+            MidiEvent noteOn = new MidiEvent(msg1, 1);
+            track.add(noteOn);
+
+            ShortMessage msg2 = new ShortMessage();
+            msg2.setMessage(NOTE_OFF, 1, 44, 100);
+            MidiEvent noteOff = new MidiEvent(msg2, 16);
+            track.add(noteOff);
+
+            // Give the Sequence to the Sequencer (like selecting the song to play)
+            player.setSequence(seq);
+
+            // start() the Sequencer (play the song)
+            player.start();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+}
+```
+
+### Making a MidiEvent (song data)
+
+A MidiEvent says _what_ to do and _when_ to do it. Every instruction must include the _timing_ for that instruction.
+
+In other words, at witch _beat_ that thing should happen.
+
+- Make a **Message** : ShortMessage msg = new ShortMessage();
+- Put the **Instruction** in the message: msg.setMessage(144, 1, 44, 100);
+- make a new **MidiEvent** using the message: MidiEvent noteOn = new MidiEvent(a,1);
+- Add the MidiEvent to the **Track** : track.add(noteOn);
+
+### MIDI message: the heart of a MidiEvent
+
+The message says _what_ to do; the MidiEvent says _when_ to do it.
+
+**Anatomy of a message** : the first argument to setMessage() always reresents the message "type", while the other three arguments represent different things depending on the message type.
+
+msg.setMessage(144, 1, 44, 100);
+
+144 : message type.
+(1, 44, 100) <=> (channel, note to play, velocity) : depending on the message type. This is a NOTE ON message, so ther other args are for things the Sequencer needs to know in order to play a note.
+
+- Message Type : 144 means NOTE ON (start playing) and 128 means NOTE OFF (stop playing).
+- Channel : Think of a channel like a musician in band. Channel 1 is musician 1, channel 9 is the drummer.
+- Note to play : A number from 0 to 127, going from low to high notes.
+- Velocity : How fast and hard did you press the key ?
+
+**Version 2: Using command-line args to experiment with sounds**
+
+```
+import javax.sound.midi.*; // Import the midi package
+import static javax.sound.midi.ShortMessage.*; // We're using a static import here so we can use the constants in the ShortMessage class
+
+public class MiniMusicCmdLine {
+
+    public static void main(String[] args) {
+        MiniMusicCmdLine mini = new MiniMusicCmdLine();
+        if (args.length < 2) {
+            System.out.println("Don't forget the instrument and note args");
+        } else {
+            int instrument = Integer.parseInt(args[0]);
+            int note = Integer.parseInt(args[1]);
+            mini.play(instrument, note);
+        }
+    }
+
+    public void play(int instrument, int note) {
+
+        try {
+            Sequencer player = MidiSystem.getSequencer();
+            player.open();
+            Sequence seq = new Sequence(Sequence.PPQ, 4);
+            Track track = seq.createTrack();
+
+            ShortMessage msg1 = new ShortMessage();
+            msg1.setMessage(PROGRAM_CHANGE, 1, instrument, 0);
+            MidiEvent changeInstrument = new MidiEvent(msg1, 1);
+            track.add(changeInstrument);
+
+            ShortMessage msg2 = new ShortMessage();
+            msg2.setMessage(NOTE_ON, 1, note, 100);
+            MidiEvent noteOn = new MidiEvent(msg2, 16);
+            track.add(noteOn);
+
+            ShortMessage msg3 = new ShortMessage();
+            msg2.setMessage(NOTE_OFF, 1, note, 100);
+            MidiEvent noteOff = new MidiEvent(msg3, 16);
+            track.add(noteOff);
+
+            player.setSequence(seq);
+            player.start();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+}
+```
